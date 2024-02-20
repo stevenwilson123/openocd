@@ -73,17 +73,25 @@ add_library(jimtcl STATIC ${jimtcl_generated_sources}
 						  ${jimtcl_source_dir}/jim-regexp.c
 						  ${jimtcl_source_dir}/jim-tclprefix.c
 						  ${jimtcl_source_dir}/jim-nosignal.c
-						  ${jimtcl_source_dir}/jimiocompat.c
 						  _load-static-exts.c)
 
 if(MSVC)
 	target_compile_definitions(jimtcl PRIVATE _CRT_SECURE_NO_WARNINGS)
-	target_compile_definitions(jimtcl PRIVATE __MINGW32__)
 endif()
 
+
+
+#jimiocompat.c causes problems when compiled on Windows without __MINGW32__ defined.
+#so here we  build it as its own seperate library with __MINGW32__ defined ONLY for that one file...
+add_library(jimiocompat STATIC ${jimtcl_source_dir}/jimiocompat.c)
+
+if(MSVC)
+	target_compile_definitions(jimiocompat PRIVATE _CRT_SECURE_NO_WARNINGS)
+	target_compile_definitions(jimiocompat PRIVATE __MINGW32__)
+endif()
 
 
 
 add_executable(jimsh ${jimtcl_source_dir}/jimsh.c initjimsh.c)
 
-target_link_libraries(jimsh jimtcl)
+target_link_libraries(jimsh jimtcl jimiocompat)

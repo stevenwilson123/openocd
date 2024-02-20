@@ -11,4 +11,4 @@ add_subdirectory(cmake/jimtcl)
 
 
 
-add_subdirectory(src)
+#add_subdirectory(src)
