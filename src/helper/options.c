@@ -117,12 +117,14 @@ static char *find_exe_path(void)
 		/* Strip executable file name, leaving path */
 		*strrchr(exepath, '/') = '\0';
 	} else {
+#ifdef __GNUC__
 		LOG_WARNING("Could not determine executable path, using configured BINDIR.");
 		LOG_DEBUG("BINDIR = %s", BINDIR);
 #ifdef HAVE_REALPATH
 		exepath = realpath(BINDIR, NULL);
 #else
 		exepath = strdup(BINDIR);
+#endif
 #endif
 	}
 

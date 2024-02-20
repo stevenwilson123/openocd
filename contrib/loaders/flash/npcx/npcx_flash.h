@@ -147,8 +147,10 @@
 #define NPCX_MASK_CMD_WR_3BYTE           (0xC0 | 0x20 | 0x10 | 0x03)
 #define NPCX_MASK_CMD_WR_4BYTE           (0xC0 | 0x20 | 0x10 | 0x04)
 
+
+
 /* Flash loader parameters */
-struct __attribute__((__packed__)) npcx_flash_params {
+PACKED_STRUCT(npcx_flash_params) {
 	uint32_t fiu_ver; /* Flash controller unit version */
 	uint32_t addr; /* Address in flash */
 	uint32_t len;  /* Number of bytes */

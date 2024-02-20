@@ -67,4 +67,10 @@
 #define false   0
 #endif
 
+#if defined(_MSC_VER)
+#include <BaseTsd.h>
+typedef SSIZE_T ssize_t;
+#define  typeof(x) __typeof__(x)
+#endif
+
 #endif /* OPENOCD_HELPER_SYSTEM_H */

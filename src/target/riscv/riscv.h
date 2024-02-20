@@ -262,7 +262,7 @@ extern bool riscv_ebreaku;
 
 /* Everything needs the RISC-V specific info structure, so here's a nice macro
  * that provides that. */
-static inline struct riscv_info *riscv_info(const struct target *target) __attribute__((unused));
+static inline struct riscv_info *riscv_info(const struct target *target);
 static inline struct riscv_info *riscv_info(const struct target *target)
 {
 	assert(target->arch_info);

@@ -49,13 +49,11 @@ enum log_levels {
 };
 
 void log_printf(enum log_levels level, const char *file, unsigned line,
-		const char *function, const char *format, ...)
-__attribute__ ((format (PRINTF_ATTRIBUTE_FORMAT, 5, 6)));
+		const char *function, const char *format, ...);
 void log_vprintf_lf(enum log_levels level, const char *file, unsigned line,
 		const char *function, const char *format, va_list args);
 void log_printf_lf(enum log_levels level, const char *file, unsigned line,
-		const char *function, const char *format, ...)
-__attribute__ ((format (PRINTF_ATTRIBUTE_FORMAT, 5, 6)));
+		const char *function, const char *format, ...);
 
 /**
  * Initialize logging module.  Call during program startup.
@@ -86,8 +84,7 @@ int log_add_callback(log_callback_fn fn, void *priv);
 int log_remove_callback(log_callback_fn fn, void *priv);
 
 char *alloc_vprintf(const char *fmt, va_list ap);
-char *alloc_printf(const char *fmt, ...)
-	__attribute__ ((format (PRINTF_ATTRIBUTE_FORMAT, 1, 2)));
+char *alloc_printf(const char *fmt, ...);
 
 char *find_nonprint_char(char *buf, unsigned buf_len);
 
@@ -98,56 +95,56 @@ extern int debug_level;
 
 #define LOG_LEVEL_IS(FOO)  ((debug_level) >= (FOO))
 
-#define LOG_DEBUG_IO(expr ...) \
+#define LOG_DEBUG_IO(...) \
 	do { \
 		if (debug_level >= LOG_LVL_DEBUG_IO) \
 			log_printf_lf(LOG_LVL_DEBUG, \
 				__FILE__, __LINE__, __func__, \
-				expr); \
+				__VA_ARGS__); \
 	} while (0)
 
-#define LOG_DEBUG(expr ...) \
+#define LOG_DEBUG(...) \
 	do { \
 		if (debug_level >= LOG_LVL_DEBUG) \
 			log_printf_lf(LOG_LVL_DEBUG, \
 				__FILE__, __LINE__, __func__, \
-				expr); \
+				__VA_ARGS__); \
 	} while (0)
 
-#define LOG_INFO(expr ...) \
-	log_printf_lf(LOG_LVL_INFO, __FILE__, __LINE__, __func__, expr)
+#define LOG_INFO(fmt, ...) \
+	log_printf_lf(LOG_LVL_INFO, __FILE__, __LINE__, __func__, fmt, __VA_ARGS__)
 
-#define LOG_WARNING(expr ...) \
-	log_printf_lf(LOG_LVL_WARNING, __FILE__, __LINE__, __func__, expr)
+#define LOG_WARNING(fmt, ...) \
+	log_printf_lf(LOG_LVL_WARNING, __FILE__, __LINE__, __func__, fmt, __VA_ARGS__)
 
-#define LOG_ERROR(expr ...) \
-	log_printf_lf(LOG_LVL_ERROR, __FILE__, __LINE__, __func__, expr)
+#define LOG_ERROR(fmt, ...) \
+	log_printf_lf(LOG_LVL_ERROR, __FILE__, __LINE__, __func__, fmt, __VA_ARGS__)
 
-#define LOG_USER(expr ...) \
-	log_printf_lf(LOG_LVL_USER, __FILE__, __LINE__, __func__, expr)
+#define LOG_USER(fmt, ...) \
+	log_printf_lf(LOG_LVL_USER, __FILE__, __LINE__, __func__, fmt, __VA_ARGS__)
 
-#define LOG_USER_N(expr ...) \
-	log_printf(LOG_LVL_USER, __FILE__, __LINE__, __func__, expr)
+#define LOG_USER_N(fmt, ...) \
+	log_printf(LOG_LVL_USER, __FILE__, __LINE__, __func__, fmt, __VA_ARGS__)
 
-#define LOG_OUTPUT(expr ...) \
-	log_printf(LOG_LVL_OUTPUT, __FILE__, __LINE__, __func__, expr)
+#define LOG_OUTPUT(fmt, ...) \
+	log_printf(LOG_LVL_OUTPUT, __FILE__, __LINE__, __func__, fmt, __VA_ARGS__)
 
 /* Output a log entry that is related to a given target */
 
 #define LOG_TARGET_DEBUG_IO(target, fmt_str, ...) \
-	LOG_DEBUG_IO("[%s] " fmt_str, target_name(target), ##__VA_ARGS__)
+	LOG_DEBUG_IO("[%s] " fmt_str, target_name(target), __VA_ARGS__)
 
 #define LOG_TARGET_DEBUG(target, fmt_str, ...) \
-	LOG_DEBUG("[%s] " fmt_str, target_name(target), ##__VA_ARGS__)
+	LOG_DEBUG("[%s] " fmt_str, target_name(target), __VA_ARGS__)
 
 #define LOG_TARGET_INFO(target, fmt_str, ...) \
-	LOG_INFO("[%s] " fmt_str, target_name(target), ##__VA_ARGS__)
+	LOG_INFO("[%s] " fmt_str, target_name(target), __VA_ARGS__)
 
 #define LOG_TARGET_WARNING(target, fmt_str, ...) \
-	LOG_WARNING("[%s] " fmt_str, target_name(target), ##__VA_ARGS__)
+	LOG_WARNING("[%s] " fmt_str, target_name(target), __VA_ARGS__)
 
 #define LOG_TARGET_ERROR(target, fmt_str, ...) \
-	LOG_ERROR("[%s] " fmt_str, target_name(target), ##__VA_ARGS__)
+	LOG_ERROR("[%s] " fmt_str, target_name(target), __VA_ARGS__)
 
 /* general failures
  * error codes < 100

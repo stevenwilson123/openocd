@@ -65,9 +65,8 @@
  *
  * This is a mechanism which is used throughout the Linux kernel.
  */
-#define container_of(ptr, type, member) ({			\
-	const typeof( ((type *)0)->member ) *__mptr = (ptr);	\
-	(type *)( (void *) ( (char *)__mptr - offsetof(type,member) ) );})
+#define container_of(ptr, type, member) \
+	((type *) ((char *)(ptr) - offsetof(type, member)))
 
 
 /**
@@ -77,6 +76,15 @@
  * @returns The rounded integer value.
  */
 #define DIV_ROUND_UP(m, n)	(((m) + (n) - 1) / (n))
+
+
+
+#ifdef _MSC_VER
+#  define PACKED_STRUCT(name) __pragma(pack(push, 1)) struct name __pragma(pack(pop))
+#elif defined(__GNUC__)
+#  define PACKED_STRUCT(name) struct __attribute__((packed)) name
+#endif
+
 
 
 /* DANGER!!!! here be dragons!

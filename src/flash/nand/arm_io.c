@@ -34,7 +34,7 @@ static int arm_code_to_working_area(struct target *target,
 	const uint32_t *code, unsigned code_size,
 	unsigned additional, struct working_area **area)
 {
-	uint8_t code_buf[code_size];
+	uint8_t* code_buf;
 	int retval;
 	unsigned size = code_size + additional;
 
@@ -52,12 +52,16 @@ static int arm_code_to_working_area(struct target *target,
 		}
 	}
 
+	code_buf = malloc(code_size);
+
 	/* buffer code in target endianness */
 	target_buffer_set_u32_array(target, code_buf, code_size / 4, code);
 
 	/* copy code to work area */
 	retval = target_write_memory(target, (*area)->address,
 			4, code_size / 4, code_buf);
+
+	free(code_buf);
 
 	return retval;
 }

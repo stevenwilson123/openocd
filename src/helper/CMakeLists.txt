@@ -13,7 +13,25 @@ add_library(helper STATIC binarybuffer.c
 						  time_support_common.c
 						  util.c)
 
-target_include_directories(helper PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(helper PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
+								  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/..)
+
+
+
 
 target_link_libraries(helper PUBLIC jimtcl)
+
+
+
+
+if(MSVC)
+	target_compile_definitions(helper PUBLIC _CRT_SECURE_NO_WARNINGS)
+
+	find_package(unofficial-getopt-win32 REQUIRED)
+    target_link_libraries(helper PRIVATE unofficial::getopt-win32::getopt)
+
+endif()
+
+
+
 
