@@ -77,7 +77,11 @@ add_library(jimtcl STATIC ${jimtcl_generated_sources}
 
 if(MSVC)
 	target_compile_definitions(jimtcl PRIVATE _CRT_SECURE_NO_WARNINGS)
+	#NOTE - we specifically DON'T want to define __MINGW32__ here....
 endif()
+
+target_include_directories(jimtcl PUBLIC ${jimtcl_source_dir}
+                                  PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
 
 
