@@ -27,6 +27,7 @@ target_link_libraries(helper PUBLIC jimtcl)
 if(MSVC)
 	target_compile_definitions(helper PUBLIC _CRT_SECURE_NO_WARNINGS)
 
+	include($ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake)
 	find_package(unofficial-getopt-win32 REQUIRED)
     target_link_libraries(helper PRIVATE unofficial::getopt-win32::getopt)
 
